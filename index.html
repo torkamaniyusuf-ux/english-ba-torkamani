@@ -266,6 +266,39 @@
       .result-btns{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
       .foot-note{ text-align:center; color:var(--ink-soft); font-size:.85rem; margin-top:26px; }
 
+      /* ---------- گرامر درس ---------- */
+      .g-point{ border-top:1.5px dashed var(--line); padding:13px 0 4px; }
+      .g-point:first-child{ border-top:none; padding-top:2px; }
+      .g-rule{ margin:0 0 7px; font-weight:700; }
+      .g-form{
+        display:inline-block; direction:ltr; unicode-bidi:isolate; font-family:"Baloo 2",sans-serif;
+        background:var(--teal-soft); color:var(--teal-deep); border-radius:999px; padding:3px 14px;
+        font-weight:700; font-size:1rem; margin-bottom:9px;
+      }
+      .g-ex{ display:flex; gap:10px; align-items:flex-start; padding:6px 0; }
+      .g-ex .txt{ flex:1; min-width:0; }
+      .g-ex .en-line{ font-size:1.08rem; font-weight:700; text-align:left; }
+      .g-ex .pr-line{ color:var(--sky); font-weight:700; font-size:.95rem; }
+      .g-ex .fa-line{ color:var(--ink-soft); font-size:.93rem; }
+
+      /* ---------- حروف الفبا (ویژه پایه هفتم) ---------- */
+      .alpha-card{
+        margin-top:18px; border:2.5px solid var(--sun); background:var(--sun-soft);
+        border-radius:var(--r-lg); padding:18px; box-shadow:var(--shadow); text-align:center;
+      }
+      .alpha-card h4{ margin:0 0 4px; font-size:1.22rem; font-weight:900; }
+      .alpha-card p{ margin:0 0 10px; color:var(--ink-soft); font-size:.93rem; }
+      .alpha-strip{ font-size:1.3rem; font-weight:700; letter-spacing:3px; color:var(--teal-deep); margin-bottom:12px; }
+      .alpha-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(92px,1fr)); gap:10px; }
+      @media (max-width:520px){ .alpha-grid{ grid-template-columns:repeat(3,1fr); gap:9px; } }
+      .alpha-tile{
+        background:var(--surface); border:2px solid var(--line); border-radius:var(--r-md);
+        padding:12px 6px 10px; text-align:center; color:var(--ink); min-height:2.75rem;
+      }
+      .alpha-tile:active{ border-color:var(--teal); background:var(--teal-soft); }
+      .alpha-tile .big{ display:block; font-size:1.9rem; font-weight:800; line-height:1.15; color:var(--teal-deep); }
+      .alpha-tile .pr{ display:block; font-weight:800; color:var(--sky); font-size:1.05rem; margin-top:2px; }
+
       /* ---------- مدیر و کد پیشرفت ---------- */
       .admin-link{ display:block; margin:16px auto 0; background:none; border:none; color:var(--teal-deep); font-weight:800; font-size:.95rem; text-decoration:underline; text-underline-offset:4px; }
       .code-box{ display:flex; gap:9px; align-items:stretch; flex-wrap:wrap; margin-top:4px; }
@@ -363,6 +396,12 @@
         </div>
         <h3 class="sec-title">درس‌های کتاب</h3>
         <div class="lessons" id="lesson-list"></div>
+        <div class="alpha-card" id="alpha-home" style="display:none">
+          <h4>حروف الفبای انگلیسی</h4>
+          <p>بخش ویژه‌ی پایه‌ی هفتم: هر ۲۶ حرف الفبا با تلفظش. روی هر حرف بزن تا صدایش را بشنوی.</p>
+          <div class="alpha-strip en">Aa Bb Cc Dd Ee … Zz</div>
+          <button class="btn btn-teal" id="btn-open-alpha" type="button">مشاهده‌ی همه‌ی حروف الفبا</button>
+        </div>
         <div class="panel" style="margin-top:18px">
           <h4>کد پیشرفت من</h4>
           <p class="sub">این کد را برای معلم بفرست تا عملکردت را ببیند. هر وقت آزمون تازه‌ای دادی، از صفحه‌ی نتیجه‌ی همان آزمون کد تازه بگیر و بفرست.</p>
@@ -408,6 +447,11 @@
           <div class="panel" id="talk-panel">
             <h4 id="talk-title">مکالمه‌ی درس</h4>
             <div id="talk-lines"></div>
+          </div>
+          <div class="panel" id="grammar-panel" style="display:none">
+            <h4 id="grammar-title">گرامر درس</h4>
+            <p class="sub" id="grammar-intro"></p>
+            <div id="grammar-body"></div>
           </div>
           <div class="panel">
             <h4>فلش‌کارت کلمه‌ها</h4>
@@ -514,6 +558,19 @@
           </div>
         </div>
 
+      </section>
+
+      <!-- ======== حروف الفبا (ویژه‌ی پایه‌ی هفتم) ======== -->
+      <section class="view" id="view-alphabet">
+        <div class="back-row">
+          <button class="btn btn-ghost" id="btn-alpha-back" type="button">بازگشت به درس‌ها</button>
+          <button class="btn btn-teal" id="btn-alpha-play" type="button">پخش همه‌ی حروف</button>
+        </div>
+        <div class="panel">
+          <h4>حروف الفبای انگلیسی — <span class="en">The Alphabet</span></h4>
+          <p class="sub">الفبای انگلیسی ۲۶ حرف دارد. برای هر حرف، شکل بزرگ و کوچک آن و تلفظش آمده است؛ روی هر حرف بزن تا تلفظش پخش شود.</p>
+          <div class="alpha-grid" id="alpha-grid"></div>
+        </div>
       </section>
 
       <!-- ======== پنل مدیر (معلم) ======== -->
@@ -676,6 +733,178 @@
            ]}
     };
 
+    /* ================= حروف الفبای انگلیسی (ویژه‌ی پایه‌ی هفتم) =================
+       هر حرف: [بزرگ، کوچک، تلفظ فارسی] — فقط تلفظ حرف، بدون کلمه‌ی مثال.
+       تلفظ Z طبق قاعده‌ی معلم «زِد» است. */
+    var ALPHABET = [
+      ["A","a","اِی"],["B","b","بی"],["C","c","سی"],["D","d","دی"],["E","e","ای"],["F","f","اِف"],
+      ["G","g","جی"],["H","h","اِیچ"],["I","i","آی"],["J","j","جِی"],["K","k","کِی"],["L","l","اِل"],
+      ["M","m","اِم"],["N","n","اِن"],["O","o","اُو"],["P","p","پی"],["Q","q","کیو"],["R","r","آر"],
+      ["S","s","اِس"],["T","t","تی"],["U","u","یو"],["V","v","وی"],["W","w","دابِلیو"],["X","x","اِکس"],
+      ["Y","y","وای"],["Z","z","زِد"]
+    ];
+    (function buildAlphabet(){
+      var grid = $("alpha-grid");
+      if(!grid) return;
+      ALPHABET.forEach(function(L){
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "alpha-tile";
+        b.setAttribute("aria-label", "حرف " + L[0] + "، تلفظ: " + L[2]);
+        b.innerHTML = '<span class="big en">' + L[0] + L[1] + '</span><span class="pr">' + L[2] + '</span>';
+        b.addEventListener("click", function(){ speak(L[0]); });
+        grid.appendChild(b);
+      });
+    })();
+
+    $("btn-open-alpha").addEventListener("click", function(){ show("view-alphabet"); });
+    $("btn-alpha-back").addEventListener("click", function(){ openHome(); });
+    $("btn-alpha-play").addEventListener("click", function(){
+      try{
+        if(!("speechSynthesis" in window)) return;
+        window.speechSynthesis.cancel();
+        ALPHABET.forEach(function(L){
+          var u = new SpeechSynthesisUtterance(L[0]);
+          u.lang = "en-US"; u.rate = 0.8;
+          window.speechSynthesis.speak(u);
+        });
+      }catch(e){}
+    });
+
+    /* ================= گرامر هر درس =================
+       منبع یکتا: فایل english-app-content.json — فقط ۲۳ درس واقعی گرامر دارند:
+       هفتم ۸ درس، هشتم ۷ درس، نهم ۶ درس، دهم فقط درس ۱ و یازدهم فقط درس ۱.
+       برای درس‌های قفل (دهم درس ۲ تا ۴، یازدهم درس ۲ و ۳، دوازدهم همه‌ی درس‌ها)
+       هیچ مدخل گرامری وجود ندارد. کلید: «پایه-شماره‌ی درس از صفر». */
+    var GRAMMAR = {
+      "7-0": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"فعل بودن: برای «من» اَم، برای «او» ایز، برای «ما، شما، آن‌ها» آر می‌آید", "rule_en":"am / is / are + adjective or noun", "examples":[{ "en":"I am Moradi.", "pron":"آی اَم مورادی.", "fa":"من مورادی هستم." }, { "en":"He is brave.", "pron":"هی ایز برِیو.", "fa":"او شجاع است." }, { "en":"They are funny.", "pron":"دِی آر فانی.", "fa":"آن‌ها بامزه هستند." }] },
+        { "rule_fa":"برای پرسیدن نام و حال کسی از این جمله‌ها استفاده می‌کنیم", "rule_en":"What's your name? / How are you?", "examples":[{ "en":"What's your name?", "pron":"واتس یور نِیم؟", "fa":"اسمت چیست؟" }, { "en":"My name is Ali Mohammadi.", "pron":"مای نِیم ایز علی محمدی.", "fa":"اسم من علی محمدی است." }, { "en":"How are you?", "pron":"هاو آر یو؟", "fa":"حالت چطور است؟" }] }
+      ] },
+      "7-1": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"برای بخش‌های روز «این»، برای روزها «آن»، برای ساعت دقیق «اَت» می‌آید", "rule_en":"in / on / at (time prepositions)", "examples":[{ "en":"I go to school in the morning.", "pron":"آی گو تو اسکول این دِ مورنینگ.", "fa":"صبح‌ها به مدرسه می‌روم." }, { "en":"I go to the gym on Sundays and Tuesdays.", "pron":"آی گو تو دِ جیم آن ساندِیز اَند تیوزدِیز.", "fa":"یکشنبه‌ها و سه‌شنبه‌ها به باشگاه می‌روم." }, { "en":"The sun rises at 6 a.m.", "pron":"دِ سان رایزِز اَت سیکس اِی اِم.", "fa":"خورشید ساعت ۶ صبح طلوع می‌کند." }] },
+        { "rule_fa":"برای کارهای همیشگی، بعد از فعل زمان حال ساده می‌آید و «اِوری» یعنی هر", "rule_en":"Simple Present for routines + every", "examples":[{ "en":"I go to school every weekday.", "pron":"آی گو تو اسکول اِوری ویک‌دِی.", "fa":"هر روز هفته به مدرسه می‌روم." }, { "en":"We play sports on Saturdays.", "pron":"وی پلِی اسپورتس آن سَتِردِیز.", "fa":"شنبه‌ها ورزش می‌کنیم." }, { "en":"We watch TV on Friday mornings.", "pron":"وی واچ تی‌وی آن فرایدِی مورنینگز.", "fa":"صبح‌های جمعه تلویزیون تماشا می‌کنیم." }] }
+      ] },
+      "7-2": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"برای پرسیدن سن از «هاو اولد» استفاده می‌کنیم و جواب با فعل بودن است", "rule_en":"How old ...? / I'm ... years old", "examples":[{ "en":"How old are you?", "pron":"هاو اولد آر یو؟", "fa":"چند سال داری؟" }, { "en":"I'm 12 years old.", "pron":"آیم توِلو ییرز اولد.", "fa":"من ۱۲ ساله هستم." }, { "en":"He's thirteen.", "pron":"هیز تِرتین.", "fa":"او ۱۳ ساله است." }] },
+        { "rule_fa":"برای پرسیدن تاریخ تولد از «وِن» استفاده می‌کنیم", "rule_en":"When is your birthday?", "examples":[{ "en":"When is your birthday?", "pron":"وِن ایز یور بِرت‌دِی؟", "fa":"تولدت کی است؟" }, { "en":"It's in Bahman.", "pron":"ایتس این بهمن.", "fa":"در بهمن است." }, { "en":"Happy birthday, Ali!", "pron":"هَپی بِرت‌دِی، علی!", "fa":"تولدت مبارک، علی!" }] }
+      ] },
+      "7-3": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"برای مالکیت، به آخر اسم «اس» اضافه می‌شود؛ یعنی «مالِ» کسی", "rule_en":"Possessive 's", "examples":[{ "en":"What is your father's job?", "pron":"وات ایز یور فادِرز جاب؟", "fa":"شغل پدرت چیست؟" }, { "en":"He's a mechanic.", "pron":"هیز اِ مِکَنیک.", "fa":"او مکانیک است." }, { "en":"What is her aunt's job?", "pron":"وات ایز هِر آنتس جاب؟", "fa":"شغل خاله‌اش چیست؟" }] },
+        { "rule_fa":"برای پرسیدن سن دیگران، به‌جای «یو» نام یا «هی/شی» می‌آید", "rule_en":"How old is he / she ...?", "examples":[{ "en":"How old is your father?", "pron":"هاو اولد ایز یور فادِر؟", "fa":"پدرت چند ساله است؟" }, { "en":"He's 38 years old.", "pron":"هیز تِرتی-اِیت ییرز اولد.", "fa":"او ۳۸ ساله است." }, { "en":"She's 8 years old.", "pron":"شیز اِیت ییرز اولد.", "fa":"او ۸ ساله است." }] }
+      ] },
+      "7-4": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"برای گفتن اینکه کسی چه پوشیده است، از حال استمراری «ایز/آر + وِرینگ» استفاده می‌کنیم", "rule_en":"He / She is wearing ... (Present Continuous)", "examples":[{ "en":"He's wearing a gray suit.", "pron":"هیز وِرینگ اِ گرِی سوت.", "fa":"او کت‌وشلوار طوسی پوشیده است." }, { "en":"She's wearing a black chador.", "pron":"شیز وِرینگ اِ بلَک چادُر.", "fa":"او چادر مشکی پوشیده است." }, { "en":"She's wearing a brown scarf.", "pron":"شیز وِرینگ اِ براون اسکارف.", "fa":"او روسری قهوه‌ای پوشیده است." }] },
+        { "rule_fa":"برای شناختن کسی از «هو» و «وِچ وان» استفاده می‌کنیم", "rule_en":"Who is ...? / Which one is ...?", "examples":[{ "en":"Who is Mr. Davoodi?", "pron":"هو ایز مستر داوودی؟", "fa":"آقای داوودی کیست؟" }, { "en":"He's the tall man.", "pron":"هیز دِ تال مَن.", "fa":"او مرد بلند است." }, { "en":"Which one is Laleh?", "pron":"وِچ وان ایز لاله؟", "fa":"لاله کدام است؟" }] }
+      ] },
+      "7-5": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"برای پرسیدن «کجا؟» از «وِر» استفاده می‌کنیم و جواب با «این» و نام مکان است", "rule_en":"Where is / are ...? + in", "examples":[{ "en":"Where are you?", "pron":"وِر آر یو؟", "fa":"کجایی؟" }, { "en":"I'm in the bedroom.", "pron":"آیم این دِ بِدروم.", "fa":"در اتاق خواب هستم." }, { "en":"She is in her office.", "pron":"شی ایز این هِر آفیس.", "fa":"او در دفترش است." }] },
+        { "rule_fa":"برای کاری که همین حالا در حال انجام است، به فعل «آی‌ان‌جی» اضافه می‌کنیم", "rule_en":"Present Continuous: am / is / are + verb-ing", "examples":[{ "en":"What are you doing?", "pron":"وات آر یو دوینگ؟", "fa":"چه کار می‌کنی؟" }, { "en":"I'm cooking.", "pron":"آیم کوکینگ.", "fa":"دارم آشپزی می‌کنم." }, { "en":"He's watching TV.", "pron":"هیز واچینگ تی‌وی.", "fa":"دارد تلویزیون تماشا می‌کند." }] }
+      ] },
+      "7-6": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"برای پرسیدن آدرس و شماره تلفن از «واتس» استفاده می‌کنیم", "rule_en":"What's your address? / Where do you live?", "examples":[{ "en":"What's your address?", "pron":"واتس یور اَدرِس؟", "fa":"آدرست چیست؟" }, { "en":"Where do you live?", "pron":"وِر دو یو لیو؟", "fa":"کجا زندگی می‌کنی؟" }, { "en":"What's your telephone number?", "pron":"واتس یور تِلِفون نامبِر؟", "fa":"شماره تلفنت چیست؟" }] },
+        { "rule_fa":"برای پرسیدن ساعت از «وات تایم» استفاده می‌کنیم و جواب با «اَت» است", "rule_en":"What time is it? / at ... (Telling the time)", "examples":[{ "en":"What time is it?", "pron":"وات تایم ایز ایت؟", "fa":"ساعت چند است؟" }, { "en":"It's 10 o'clock.", "pron":"ایتس تِن اُکلاک.", "fa":"ساعت ۱۰ است." }, { "en":"At 5:45 in the afternoon.", "pron":"اَت فایو فورتی‌فایو این دِ آفتِرنون.", "fa":"ساعت ۵:۴۵ بعدازظهر." }] }
+      ] },
+      "7-7": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"برای پرسیدن غذای موردعلاقه از «واتس یور فِیووریت» استفاده می‌کنیم", "rule_en":"What's your favorite ...? / What do you like ...?", "examples":[{ "en":"What's your favorite food?", "pron":"واتس یور فِیووریت فود؟", "fa":"غذای موردعلاقه‌ات چیست؟" }, { "en":"Rice and kebab.", "pron":"رایس اَند کباب.", "fa":"برنج و کباب." }, { "en":"Orange juice.", "pron":"اورِنج جوس.", "fa":"آب پرتقال." }] },
+        { "rule_fa":"برای پیشنهاد دادن از «لِتس» و «هاو اَباوت» استفاده می‌کنیم", "rule_en":"Let's ... / How about ...? (Making suggestions)", "examples":[{ "en":"I'm hungry.", "pron":"آیم هانگری.", "fa":"گرسنه‌ام." }, { "en":"How about some cake and milk?", "pron":"هاو اَباوت سام کِیک اَند میلک؟", "fa":"کمی کیک و شیر چطور؟" }, { "en":"Let's have something to drink.", "pron":"لِتس هَو سامتینگ تو درینک.", "fa":"بیا چیزی بنوشیم." }] }
+      ] },
+      "8-0": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"برای پرسیدن «اهل کجایی؟» از «وِر ... فرام» استفاده می‌کنیم", "rule_en":"Where are you from? / I'm from ...", "examples":[{ "en":"Where are you from?", "pron":"وِر آر یو فرام؟", "fa":"اهل کجایی؟" }, { "en":"I'm from Iran.", "pron":"آیم فرام ایران.", "fa":"من اهل ایران هستم." }, { "en":"She is from England.", "pron":"شی ایز فرام اینگلند.", "fa":"او اهل انگلستان است." }] },
+        { "rule_fa":"ملیت بعد از فعل بودن می‌آید؛ وقتی فاعل «او» است، به آخر فعل «اس» اضافه می‌شود", "rule_en":"am / is / are + nationality; third-person -s", "examples":[{ "en":"I am Iranian.", "pron":"آی اَم ایرانیَن.", "fa":"من ایرانی هستم." }, { "en":"He is Spanish.", "pron":"هی ایز اسپَنیش.", "fa":"او اسپانیایی است." }, { "en":"He speaks French.", "pron":"هی اسپیکس فرِنچ.", "fa":"او فرانسوی صحبت می‌کند." }] }
+      ] },
+      "8-1": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"برای معرفی کسی به دیگران از «دِس ایز» و «دَت ایز» استفاده می‌کنیم", "rule_en":"This is ... / That is ... (Introducing others)", "examples":[{ "en":"This is my friend Parham.", "pron":"دِس ایز مای فرِند پرهام.", "fa":"این دوست من پرهام است." }, { "en":"That is Erfan.", "pron":"دَت ایز ارفان.", "fa":"آن عرفان است." }, { "en":"He's my friend Erfan.", "pron":"هیز مای فرِند ارفان.", "fa":"او دوست من عرفان است." }] },
+        { "rule_fa":"برای کارهای همیشگی از حال ساده استفاده می‌کنیم؛ «این» برای بخش‌های روز و «آن» برای روزها می‌آید", "rule_en":"in / on / Every (Daily routines)", "examples":[{ "en":"What do you do in the mornings?", "pron":"وات دو یو دو این دِ مورنینگز؟", "fa":"صبح‌ها چه کار می‌کنی؟" }, { "en":"I go to school.", "pron":"آی گو تو اسکول.", "fa":"به مدرسه می‌روم." }, { "en":"I go to school every weekday.", "pron":"آی گو تو اسکول اِوری ویک‌دِی.", "fa":"هر روز هفته به مدرسه می‌روم." }] }
+      ] },
+      "8-2": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"برای توانایی از «کَن» استفاده می‌کنیم؛ منفی آن «کَنت» است", "rule_en":"can / can't (Abilities)", "examples":[{ "en":"Can you make a cake?", "pron":"کَن یو مِیک اِ کِیک؟", "fa":"می‌توانی کیک بپزی؟" }, { "en":"Yes, I can.", "pron":"یِس، آی کَن.", "fa":"بله، می‌توانم." }, { "en":"No, they can't.", "pron":"نو، دِی کَنت.", "fa":"نه، نمی‌توانند." }] },
+        { "rule_fa":"برای گفتن اینکه در کاری خوب هستیم از «گود اَت» و فعل با «آی‌ان‌جی» استفاده می‌کنیم", "rule_en":"be good at + verb-ing", "examples":[{ "en":"Are you good at drawing?", "pron":"آر یو گود اَت درایینگ؟", "fa":"در نقاشی خوب هستی؟" }, { "en":"Yes, I am.", "pron":"یِس، آی اَم.", "fa":"بله، هستم." }, { "en":"Yes, he is.", "pron":"یِس، هی ایز.", "fa":"بله، هست." }] }
+      ] },
+      "8-3": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"برای گفتن درد و بیماری از «هَو» و «هَز» استفاده می‌کنیم", "rule_en":"have / has + health problem", "examples":[{ "en":"Are you OK?", "pron":"آر یو اُوکِی؟", "fa":"خوبی؟" }, { "en":"No, I have a headache.", "pron":"نو، آی هَو اِ هِداِیک.", "fa":"نه، سردرد دارم." }, { "en":"I have a toothache.", "pron":"آی هَو اِ توت‌اِیک.", "fa":"دندان‌درد دارم." }] },
+        { "rule_fa":"برای توصیه کردن از «شود» و «وای دونت یو» استفاده می‌کنیم", "rule_en":"should / Why don't you ...? (Giving advice)", "examples":[{ "en":"I have a sore throat.", "pron":"آی هَو اِ سور تروت.", "fa":"گلویم درد می‌کند." }, { "en":"You should see a doctor.", "pron":"یو شود سی اِ داکتِر.", "fa":"باید به دکتر بروی." }, { "en":"Why don't you get some rest?", "pron":"وای دونت یو گِت سام رِست؟", "fa":"چرا کمی استراحت نمی‌کنی؟" }] }
+      ] },
+      "8-4": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"برای پرسیدن مکان و توصیف شهر از «وِر ایز» و «واتس ... لایک» استفاده می‌کنیم", "rule_en":"Where is ...? / What's ... like? (Talking about a place)", "examples":[{ "en":"Where is Isfahan?", "pron":"وِر ایز اصفهان؟", "fa":"اصفهان کجاست؟" }, { "en":"It's in the center of Iran.", "pron":"ایتس این دِ سِنتِر آو ایران.", "fa":"در مرکز ایران است." }, { "en":"It's a big city.", "pron":"ایتس اِ بیگ سیتی.", "fa":"شهر بزرگی است." }] },
+        { "rule_fa":"برای پرسیدن «هست؟» از «ایز دِر» برای یک چیز و «آر دِر» برای چند چیز استفاده می‌کنیم", "rule_en":"there is / there are (Is there ...? / Are there ...?)", "examples":[{ "en":"Is there a metro system in the city?", "pron":"ایز دِر اِ مِترو سیستم این دِ سیتی؟", "fa":"آیا در شهر مترو هست؟" }, { "en":"Yes, there is.", "pron":"یِس، دِر ایز.", "fa":"بله، هست." }, { "en":"Are there any museums?", "pron":"آر دِر اِنی میوزیَمز؟", "fa":"آیا موزه‌ای هست؟" }] }
+      ] },
+      "8-5": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"برای توصیف روستا از «واتس ... لایک» و «فِیمِس فور» استفاده می‌کنیم", "rule_en":"What's ... like? / famous for (Talking about a village)", "examples":[{ "en":"What is Ghez-ghal'eh like?", "pron":"وات ایز قزقلعه لایک؟", "fa":"قزقلعه چطور جایی است؟" }, { "en":"It's a mountain village.", "pron":"ایتس اِ ماونتِن ویلِج.", "fa":"روستای کوهستانی است." }, { "en":"It's famous for its sunflower fields.", "pron":"ایتس فِیمِس فور ایتس سان‌فلاوِر فیلدز.", "fa":"به‌خاطر مزارع آفتابگردانش معروف است." }] },
+        { "rule_fa":"برای پرسیدن آب‌وهوا از «واتس دِ وِدِر لایک» استفاده می‌کنیم", "rule_en":"What's the weather like? (Weather)", "examples":[{ "en":"What's the weather like in summer?", "pron":"واتس دِ وِدِر لایک این سامِر؟", "fa":"هوا در تابستان چطور است؟" }, { "en":"It's sunny.", "pron":"ایتس سانی.", "fa":"آفتابی است." }, { "en":"Yes, it is.", "pron":"یِس، ایت ایز.", "fa":"بله، هست." }] }
+      ] },
+      "8-6": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"برای پرسیدن سرگرمی از «دو یو هَو اِنی هابیز» استفاده می‌کنیم؛ بعد از «لایک» و «اِنجوی» فعل با «آی‌ان‌جی» می‌آید", "rule_en":"Do you have any hobbies? / like + verb-ing", "examples":[{ "en":"Do you have any hobbies?", "pron":"دو یو هَو اِنی هابیز؟", "fa":"سرگرمی‌ای داری؟" }, { "en":"What's your hobby?", "pron":"واتس یور هابی؟", "fa":"سرگرمیت چیست؟" }, { "en":"I enjoy searching the Web.", "pron":"آی اِنجوی سِرچینگ دِ وِب.", "fa":"از جستجو در اینترنت لذت می‌برم." }] },
+        { "rule_fa":"برای گفتن کارهای وقت آزاد، «یوژوالی» یعنی معمولا، قبل از فعل اصلی می‌آید", "rule_en":"Free time + usually (Adverb of frequency)", "examples":[{ "en":"What do you do in your free time?", "pron":"وات دو یو دو این یور فری تایم؟", "fa":"در وقت آزادت چه کار می‌کنی؟" }, { "en":"I usually go shopping.", "pron":"آی یوژوالی گو شاپینگ.", "fa":"معمولا به خرید می‌روم." }, { "en":"I like playing computer games.", "pron":"آی لایک پلِیینگ کامپیوتِر گِیمز.", "fa":"بازی‌های کامپیوتری را دوست دارم." }] }
+      ] },
+      "9-0": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"برای توصیف شخصیت، صفت بعد از فعل بودن می‌آید", "rule_en":"Simple Present (to be): am / is / are + adjective", "examples":[{ "en":"Ali is clever.", "pron":"علی ایز کلِوِر.", "fa":"علی باهوش است." }, { "en":"Zahra and Nadia are generous.", "pron":"زهرا اَند نادیا آر جِنِرِس.", "fa":"زهرا و نادیا بخشنده هستند." }, { "en":"I am not talkative.", "pron":"آی اَم نات تاکِتیو.", "fa":"من پرحرف نیستم." }] },
+        { "rule_fa":"برای پرسیدن شخصیت کسی از «واتس ... لایک» استفاده می‌کنیم؛ جواب آن یک صفت است", "rule_en":"What's ... like? (Asking about personality)", "examples":[{ "en":"What's he like?", "pron":"واتس هی لایک؟", "fa":"او چه جور آدمی است؟" }, { "en":"He is kind.", "pron":"هی ایز کایند.", "fa":"او مهربان است." }, { "en":"Are you hard-working?", "pron":"آر یو هارد-وِرکینگ؟", "fa":"سخت‌کوش هستی؟" }] }
+      ] },
+      "9-1": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"برای کاری که همین حالا در حال انجام است، از «اَم/ایز/آر + فعل با آی‌ان‌جی» استفاده می‌کنیم", "rule_en":"Present Continuous: am / is / are + verb-ing", "examples":[{ "en":"Are you visiting Tehran?", "pron":"آر یو وِیزیتینگ تهران؟", "fa":"آیا به تهران آمده‌ای؟" }, { "en":"Yes, I am.", "pron":"یِس، آی اَم.", "fa":"بله، آمده‌ام." }, { "en":"Is Sara booking online?", "pron":"ایز سارا بوکینگ آنلاین؟", "fa":"آیا سارا آنلاین رزرو می‌کند؟" }] },
+        { "rule_fa":"سؤال با «هو» و «وات» در حال استمراری هم با فعل بودن شروع می‌شود", "rule_en":"Wh Questions in Present Continuous", "examples":[{ "en":"Who is speaking English now?", "pron":"هو ایز اسپیکینگ اینگلِش ناو؟", "fa":"چه کسی الان انگلیسی صحبت می‌کند؟" }, { "en":"What is he doing?", "pron":"وات ایز هی دوینگ؟", "fa":"او چه کار می‌کند؟" }, { "en":"He is buying a ticket.", "pron":"هی ایز بایینگ اِ تیکت.", "fa":"دارد بلیت می‌خرد." }] }
+      ] },
+      "9-2": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"برای کارهای همیشگی، با «آی/یو/وی/دِی» فعل ساده می‌آید و با «هی/شی» به آخر فعل «اس» اضافه می‌شود", "rule_en":"Simple Present: do / does", "examples":[{ "en":"Do you buy new clothes for the new year?", "pron":"دو یو بای نیو کلودز فور دِ نیو ییر؟", "fa":"برای سال نو لباس نو می‌خری؟" }, { "en":"Yes, I do.", "pron":"یِس، آی دو.", "fa":"بله، می‌خرم." }, { "en":"Does he recite the Holy Quran at the turn of the year?", "pron":"داز هی رِسایت دِ هولی قرآن اَت دِ تِرن آو دِ ییر؟", "fa":"آیا او قرآن را در تحویل سال می‌خواند؟" }] },
+        { "rule_fa":"صفت ملکیِ هر فاعل این‌هاست: مای، یور، هیز، هِر، ایتس، آور، دِر", "rule_en":"Possessive Adjectives: my / your / his / her / its / our / their", "examples":[{ "en":"I read my book.", "pron":"آی رید مای بوک.", "fa":"کتابم را می‌خوانم." }, { "en":"She studies her lessons.", "pron":"شی استادیز هِر لِسِنز.", "fa":"درس‌هایش را می‌خواند." }, { "en":"We paint our house.", "pron":"وی پِینت آور هاوس.", "fa":"خانه‌مان را رنگ می‌کنیم." }] }
+      ] },
+      "9-3": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"سؤال با «دو/داز» ساخته می‌شود: «دو» برای آی/یو/وی/دِی و «داز» برای هی/شی", "rule_en":"Wh Questions: What / Where / When / Why / How + do / does", "examples":[{ "en":"What do you study?", "pron":"وات دو یو استادی؟", "fa":"چه می‌خوانی؟" }, { "en":"I study French.", "pron":"آی استادی فرِنچ.", "fa":"فرانسوی می‌خوانم." }, { "en":"She wakes up at 6.00.", "pron":"شی وِیکس آپ اَت سیکس.", "fa":"او ساعت ۶ بیدار می‌شود." }] },
+        { "rule_fa":"قید تکرار قبل از فعل اصلی می‌آید: همیشه، معمولا، اغلب، گاهی، هرگز", "rule_en":"Adverbs of Frequency: always / usually / often / sometimes / never", "examples":[{ "en":"She always studies hard.", "pron":"شی آلوِیز استادیز هارد.", "fa":"او همیشه سخت درس می‌خواند." }, { "en":"They never come late.", "pron":"دِی نِوِر کام لِیت.", "fa":"آن‌ها هرگز دیر نمی‌آیند." }, { "en":"I always wake up at 5:30.", "pron":"آی آلوِیز وِیک آپ اَت فایو تِرتی.", "fa":"من همیشه ساعت ۵:۳۰ بیدار می‌شوم." }] }
+      ] },
+      "9-4": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"برای گذشته، به آخر بیشتر فعل‌ها «ای‌دی» اضافه می‌شود و «دید» برای سؤال و منفی می‌آید", "rule_en":"Past Tense (Regular): verb-ed / did", "examples":[{ "en":"He received an e-mail.", "pron":"هی رِسیود اَن ای-مِیل.", "fa":"او ایمیلی دریافت کرد." }, { "en":"They closed the door yesterday.", "pron":"دِی کلوزد دِ دور یِستِردِی.", "fa":"آن‌ها دیروز در را بستند." }, { "en":"Yes, they did.", "pron":"یِس، دِی دید.", "fa":"بله، کردند." }] },
+        { "rule_fa":"گذشته فعل بودن «واز» و «وِر» است", "rule_en":"Past tense of 'to be': was / were", "examples":[{ "en":"I was happy yesterday.", "pron":"آی واز هَپی یِستِردِی.", "fa":"دیروز خوشحال بودم." }, { "en":"Who watched the movie last night?", "pron":"هو واچت دِ مووی لَست نایت؟", "fa":"چه کسی دیشب فیلم دید؟" }, { "en":"My sister.", "pron":"مای سیستِر.", "fa":"خواهرم." }] }
+      ] },
+      "9-5": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"بعضی فعل‌ها در گذشته شکلشان عوض می‌شود و «ای‌دی» نمی‌گیرند؛ سؤال و منفی با «دید» ساخته می‌شود", "rule_en":"Past Tense (Irregular): spoke / ate / had / bought", "examples":[{ "en":"Did Mina have an accident?", "pron":"دید مینا هَو اَن اَکسیدِنت؟", "fa":"آیا مینا تصادف کرد؟" }, { "en":"Yes, she did.", "pron":"یِس، شی دید.", "fa":"بله، کرد." }, { "en":"Who ate the cake?", "pron":"هو اِت دِ کِیک؟", "fa":"چه کسی کیک را خورد؟" }] },
+        { "rule_fa":"بعد از فعل، به‌جای اسم از ضمیر مفعولی استفاده می‌کنیم: می، یو، هیم، هِر، ایت، آس، دِم", "rule_en":"Object Pronouns: me / you / him / her / it / us / them", "examples":[{ "en":"He called me.", "pron":"هی کالد می.", "fa":"او به من زنگ زد." }, { "en":"They saw Ali in the park.", "pron":"دِی سا علی این دِ پارک.", "fa":"آن‌ها علی را در پارک دیدند." }, { "en":"They invited us.", "pron":"دِی اینوایتِد آس.", "fa":"آن‌ها ما را دعوت کردند." }] }
+      ] },
+      "10-0": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"فعل بودن در زمان حال: برای «من» اَم، برای «او» ایز، برای «ما، شما، آن‌ها» آر می‌آید", "rule_en":"Simple Present (to be): am / is / are", "examples":[{ "en":"Ali is clever.", "pron":"علی ایز کلِوِر.", "fa":"علی باهوش است." }, { "en":"It is red.", "pron":"ایت ایز رِد.", "fa":"آن قرمز است." }, { "en":"Zahra and Nadia are generous.", "pron":"زهرا اَند نادیا آر جِنِرِس.", "fa":"زهرا و نادیا بخشنده هستند." }] },
+        { "rule_fa":"برای منفی کردن، بعد از فعل بودن «نات» می‌آید", "rule_en":"Negative: am / is / are + not", "examples":[{ "en":"I am not talkative.", "pron":"آی اَم نات تاکِتیو.", "fa":"من پرحرف نیستم." }, { "en":"He is not shy.", "pron":"هی ایز نات شای.", "fa":"او خجالتی نیست." }, { "en":"They are not rude.", "pron":"دِی آر نات رود.", "fa":"آن‌ها بی‌ادب نیستند." }] }
+      ] },
+      "11-0": { "title_fa":"گرامر درس", "title_en":"Grammar", "points":[
+        { "rule_fa":"برای گذشته، سؤال و منفی با «دید» ساخته می‌شود و فعل به شکل ساده برمی‌گردد؛ بعضی فعل‌ها شکل گذشته‌شان عوض می‌شود", "rule_en":"Simple Past: did + verb / began / learned", "examples":[{ "en":"When did you learn them?", "pron":"وِن دید یو لِرن دِم؟", "fa":"کی آن‌ها را یاد گرفتی؟" }, { "en":"I began learning English at school when I was thirteen.", "pron":"آی بِگَن لِرنینگ اینگلِش اَت اسکول وِن آی واز تِرتین.", "fa":"وقتی ۱۳ ساله بودم، یادگیری انگلیسی را در مدرسه شروع کردم." }, { "en":"I learned Russian when I was a university student in Moscow.", "pron":"آی لِرند راشِن وِن آی واز اِ یونیوِرسیتی استیودِنت این موسکو.", "fa":"وقتی دانشجوی دانشگاه در مسکو بودم، روسی یاد گرفتم." }] },
+        { "rule_fa":"گذشته فعل بودن «واز» و «وِر» است", "rule_en":"Past tense of 'to be': was / were", "examples":[{ "en":"He was living in Iran.", "pron":"هی واز لیوینگ این ایران.", "fa":"او در ایران زندگی می‌کرد." }, { "en":"No, he wasn't.", "pron":"نو، هی وازنت.", "fa":"نه، نبود." }, { "en":"I heard you know three languages.", "pron":"آی هِرد یو نو تری لَنگوِجِز.", "fa":"شنیده‌ام سه زبان بلدی." }] }
+      ] }
+    };
+
+    /* نمایش گرامر درس جاری در زبانه‌ی یادگیری — فقط از داده‌ی GRAMMAR بالا؛
+       درسی که مدخل گرامر ندارد (درس‌های قفل) این بخش را اصلاً نشان نمی‌دهد. */
+    function buildGrammar(){
+      var panel = $("grammar-panel"), body = $("grammar-body");
+      if(!panel || !body) return;
+      body.innerHTML = "";
+      var G = GRAMMAR[cur.grade + "-" + cur.lesson];
+      if(!G){ panel.style.display = "none"; return; }
+      panel.style.display = "";
+      $("grammar-title").textContent = G.title_fa + (cur.data && cur.data.en ? " — " + cur.data.en : "");
+      var intro = $("grammar-intro");
+      intro.textContent = "";
+      intro.style.display = "none";
+      G.points.forEach(function(p){
+        var d = document.createElement("div"); d.className = "g-point";
+        var html = '<p class="g-rule">' + p.rule_fa + '</p>';
+        if(p.rule_en) html += '<span class="g-form">' + p.rule_en + '</span>';
+        d.innerHTML = html;
+        p.examples.forEach(function(e){
+          var row = document.createElement("div"); row.className = "g-ex";
+          var exHtml = '<span class="txt"><span class="en en-line">' + e.en + '</span>';
+          if(e.pron) exHtml += '<br><span class="pr-line">' + e.pron + '</span>';
+          exHtml += '<br><span class="fa-line">' + e.fa + '</span></span>';
+          row.innerHTML = exHtml;
+          var spk = document.createElement("button");
+          spk.type = "button"; spk.className = "spk-btn"; spk.setAttribute("aria-label", "پخش تلفظ مثال گرامر");
+          spk.innerHTML = SPK;
+          spk.addEventListener("click", function(){ speak(e.en); });
+          row.appendChild(spk);
+          d.appendChild(row);
+        });
+        body.appendChild(d);
+      });
+    }
+
     /* ================= ابزارها ================= */
     function $(id){ return document.getElementById(id); }
     function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
@@ -717,7 +946,7 @@
       $("stat-xp").textContent = faNum(xp);
     }
     function show(view){
-      ["view-welcome","view-home","view-lesson","view-admin"].forEach(function(v){ $(v).classList.toggle("on", v===view); });
+      ["view-welcome","view-home","view-lesson","view-admin","view-alphabet"].forEach(function(v){ $(v).classList.toggle("on", v===view); });
       window.scrollTo(0,0);
     }
 
@@ -761,6 +990,7 @@
       $("book-img").alt = "تصویر کتاب " + B.bookFa;
       $("book-title").innerHTML = 'کتاب <span class="en">' + B.bookEn + '</span> — ' + B.bookFa;
       $("book-sub").textContent = B.bannerFa;
+      $("alpha-home").style.display = student.grade === 7 ? "" : "none";
       var list = $("lesson-list"); list.innerHTML = "";
       B.lessons.forEach(function(L, i){
         var locked = isLocked(student.grade, i);
@@ -816,7 +1046,7 @@
       $("lesson-title-en").textContent = L.en;
       $("lesson-title-fa").textContent = "درس " + faNum(i+1) + ": " + L.fa + " • کتاب " + BOOKS[student.grade].bookFa;
       $("lesson-stars").textContent = faNum(stars[cur.grade + "-" + i] || 0);
-      buildTalk(); buildVocab(); buildExtra();
+      buildTalk(); buildGrammar(); buildVocab(); buildExtra();
       flashIdx = 0; renderFlash();
       startMatch(); newBuildWord();
       startQuiz();
